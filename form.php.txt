@@ -1,0 +1,169 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id_from_login'])) {
+echo "Please log in to access this page.";
+exit();
+}
+$user_id = $_SESSION['user_id_from_login'];
+$_SESSION['user_id'] = $user_id; // Keep 'user_id' consistent
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+try {
+$db = new PDO('mysql:host=127.0.0.1;dbname=heart_app', 'root', '');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$stmt = $db->prepare('INSERT INTO inputs (user_id, age, sex, trestbps, chol, fbs, thalach, exang, oldpeak, ca, thal, cp_0_0, cp_1_0, cp_2_0, cp_3_0, restecg_0_0, restecg_1_0, restecg_2_0, slope_0_0, slope_1_0, slope_2_0, thal_3_0, thal_6_0, thal_7_0) VALUES (:user_id, :age, :sex, :trestbps, :chol, :fbs, :thalach, :exang, :oldpeak, :ca, :thal, :cp_0_0, :cp_1_0, :cp_2_0, :cp_3_0, :restecg_0_0, :restecg_1_0, :restecg_2_0, :slope_0_0, :slope_1_0, :slope_2_0, :thal_3_0, :thal_6_0, :thal_7_0)');
+// Get form values
+$age = $_POST['age'];
+$sex = $_POST['sex'];
+$trestbps = $_POST['trestbps'];
+$chol = $_POST['chol'];
+$fbs = $_POST['fbs'];
+$thalach = $_POST['thalach'];
+$exang = $_POST['exang'];
+$oldpeak = $_POST['oldpeak'];
+$ca = $_POST['ca'];
+$thal_input = $_POST['thal'];
+14
+$cp = $_POST['cp'];
+$restecg = $_POST['restecg'];
+$slope = $_POST['slope'];
+// Bind basic values
+$stmt->bindValue(':user_id', $user_id);
+$stmt->bindValue(':age', $age);
+$stmt->bindValue(':sex', $sex);
+$stmt->bindValue(':trestbps', $trestbps);
+$stmt->bindValue(':chol', $chol);
+$stmt->bindValue(':fbs', $fbs);
+$stmt->bindValue(':thalach', $thalach);
+$stmt->bindValue(':exang', $exang);
+$stmt->bindValue(':oldpeak', $oldpeak);
+$stmt->bindValue(':ca', $ca);
+$stmt->bindValue(':thal', $thal_input);
+// Bind one-hot encoded values for 'cp'
+$stmt->bindValue(':cp_0_0', ($cp == 0) ? 1 : 0);
+$stmt->bindValue(':cp_1_0', ($cp == 1) ? 1 : 0);
+$stmt->bindValue(':cp_2_0', ($cp == 2) ? 1 : 0);
+$stmt->bindValue(':cp_3_0', ($cp == 3) ? 1 : 0);
+// Bind one-hot encoded values for 'restecg'
+$stmt->bindValue(':restecg_0_0', ($restecg == 0) ? 1 : 0);
+$stmt->bindValue(':restecg_1_0', ($restecg == 1) ? 1 : 0);
+$stmt->bindValue(':restecg_2_0', ($restecg == 2) ? 1 : 0);
+// Bind one-hot encoded values for 'slope'
+$stmt->bindValue(':slope_0_0', ($slope == 0) ? 1 : 0);
+$stmt->bindValue(':slope_1_0', ($slope == 1) ? 1 : 0);
+$stmt->bindValue(':slope_2_0', ($slope == 2) ? 1 : 0);
+// Bind one-hot encoded values for 'thal'
+$stmt->bindValue(':thal_3_0', ($thal_input == 3) ? 1 : 0);
+$stmt->bindValue(':thal_6_0', ($thal_input == 6) ? 1 : 0);
+$stmt->bindValue(':thal_7_0', ($thal_input == 7) ? 1 : 0);
+$stmt->execute();
+// Execute predict.py
+$command = "python3 /path/to/your/predict.py " . escapeshellarg($age) . " " . escapeshellarg($sex) . " " . escapeshellarg($trestbps) . " " . escapeshellarg($chol) . " " . escapeshellarg($fbs) . " " . escapeshellarg($thalach) . " " . escapeshellarg($exang) . " " . escapeshellarg($oldpeak) . " " . escapeshellarg($ca) . " " . escapeshellarg($thal_input) . " " . escapeshellarg($cp) . " " . escapeshellarg($restecg) . " " . escapeshellarg($slope);
+$output = shell_exec($command);
+$predictionStage = trim($output);
+// Update inputs table with prediction_stage
+$stmt = $db->prepare('UPDATE inputs SET prediction_stage = :prediction_stage WHERE user_id = :user_id ORDER BY timestamp DESC LIMIT 1');
+$stmt->bindParam(':prediction_stage', $predictionStage);
+15
+$stmt->bindParam(':user_id', $user_id);
+$stmt->execute();
+header("Location: dashboard.php");
+exit();
+} catch (PDOException $e) {
+echo "Error: " . $e->getMessage();
+}
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart Disease Prediction</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+text-align: center;
+padding: 20px;
+background-color: #f4f4f4;
+}
+form {
+max-width: 600px;
+margin: auto;
+background: white;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+input {
+width: calc(100% - 20px);
+padding: 10px;
+margin-bottom: 15px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 16px;
+padding-right: 10px;
+}
+.button-container {
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+button {
+width: 50%;
+padding: 10px;
+border: none;
+background-color: #28a745;
+color: white;
+16
+font-size: 16px;
+border-radius: 4px;
+cursor: pointer;
+transition: background 0.3s;
+}
+button:hover {
+background-color: #218838;
+}
+h2, h3 {
+color: #333;
+}
+.section-title {
+font-size: 18px;
+font-weight: bold;
+margin-top: 20px;
+}
+.result-box {
+margin-top: 30px;
+padding: 15px;
+background-color: #e9ffe9;
+border: 1px solid #c0eac0;
+border-radius: 6px;
+display: inline-block;
+}
+</style>
+</head>
+<body>
+<h2>Heart Disease Prediction</h2>
+<form method="post">
+<input type="number" name="age" placeholder="Age" required>
+<input type="number" name="sex" placeholder="Gender (0 = Female, 1 = Male)" required>
+<div class="section-title">Basic Information</div>
+<input type="number" name="cp" placeholder="Chest Pain Type (0-3)" required>
+<input type="number" name="trestbps" placeholder="Resting BP" required>
+<input type="number" name="chol" placeholder="Cholesterol Level" required>
+<input type="number" name="fbs" placeholder="Fasting Blood Sugar (0 or 1)" required>
+<div class="section-title">Clinical Measurements</div>
+<input type="number" name="restecg" placeholder="Resting ECG (0-2)" required>
+<input type="number" name="thalach" placeholder="Max Heart Rate" required>
+<input type="number" name="exang" placeholder="Exercise-Induced Angina (0 or 1)" required>
+<input type="number" step="0.1" name="oldpeak" placeholder="ST Depression" required>
+<div class="section-title">ECG & Other Indicators</div>
+<input type="number" name="slope" placeholder="Slope (0-2)" required>
+<input type="number" name="ca" placeholder="Major Vessels (0-4)" required>
+<input type="number" name="thal" placeholder="Thalassemia (0-3)" required>
+<div class="button-container">
+<button type="submit">Predict</button>
+</div>
+17
+</form>
+</body>
+</html>

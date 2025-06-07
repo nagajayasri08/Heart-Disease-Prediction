@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Help - Heart Health Portal</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background-color: #333;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-left {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .navbar-right a {
+      color: white;
+      margin-left: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .navbar-right a:hover {
+      text-decoration: underline;
+    }
+
+    /* Help Page Main Container */
+    .help-container {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    /* FAQ Section */
+    .faqs {
+      margin-bottom: 40px;
+    }
+
+    .faq-item {
+      background-color: #fff;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-item h3 {
+      font-size: 1.4em;
+      margin-bottom: 10px;
+    }
+
+    .faq-item p {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    /* Contact Form Section */
+    .contact-us {
+      margin-bottom: 40px;
+    }
+
+    .contact-us form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-us label {
+      font-size: 1.1em;
+      margin-bottom: 8px;
+    }
+
+    .contact-us input, .contact-us textarea {
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .contact-us button {
+      padding: 12px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .contact-us button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Helpful Resources Section */
+    .resources ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .resources li {
+      margin-bottom: 15px;
+    }
+
+    .resources a {
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    .resources a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="navbar-left">HeartCare</div>
+    <div class="navbar-right">
+      <a href="final.html">Home</a> <!-- Home link now navigates to final.html -->
+    </div>
+  </div>
+
+  <!-- Help Page Main Section -->
+  <div class="help-container">
+    <h1>How Can We Help You?</h1>
+    
+    <!-- FAQs Section -->
+    <section class="faqs">
+      <h2>Frequently Asked Questions (FAQs)</h2>
+      <div class="faq-item">
+        <h3>1. How do I register for the Heart Health Portal?</h3>
+        <p>To register, click on the "Register" link in the navigation bar and fill out the required information. Once done, you can log in and access all the features of the portal.</p>
+      </div>
+      <div class="faq-item">
+        <h3>2. How do I predict my heart disease risk?</h3>
+        <p>After logging in, navigate to the prediction form, where you will enter some health details. Based on the data, the system will predict the likelihood of heart disease.</p>
+      </div>
+      <div class="faq-item">
+        <h3>3. How can I improve my heart health?</h3>
+        <p>You can improve your heart health by following a heart-healthy diet, engaging in regular exercise, and maintaining a healthy lifestyle. Visit the "Exercise" and "Diet" sections for more information.</p>
+      </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section class="contact-us">
+      <h2>Contact Us</h2>
+      <p>If you need further assistance, please reach out to us using the contact form below.</p>
+      <form class="contact-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <!-- Helpful Resources Section -->
+    <section class="resources">
+      <h2>Helpful Resources</h2>
+      <ul>
+        <li><a href="stages.html">Learn about Heart Disease Stages</a></li>
+        <li><a href="exercise.html">Exercise Tips for a Healthy Heart</a></li>
+        <li><a href="diet.html">Heart-Healthy Diet Recommendations</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 HeartCare | All Rights Reserved</p>
+  </footer>
+
+</body>
+</html>

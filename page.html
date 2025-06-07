@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 20px; 
+            background-color: #f4f4f4;
+            position: relative; /* Allow positioning of the blurred background */
+            min-height: 100vh; /* Ensure body can expand for scrolling */
+            margin: 0; /* Reset default margin */
+        }
+
+        /* Pseudo-element for blurred background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Matches body height, including scrollable content */
+            background-image: url('https://www.shutterstock.com/image-vector/heart-pulse-heartbeat-lone-cardiogram-600nw-2467014961.jpg'); /* Example image */
+            background-size: cover;
+            background-position: center center;
+            filter: blur(8px); /* Apply blur effect */
+            z-index: -1; /* Keep it behind content */
+        }
+
+        form { 
+            max-width: 600px; 
+            margin: auto; 
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white for contrast */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            padding-right: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            width: 50%;
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Ensure page2 can scroll if content overflows */
+        #page2 {
+            max-height: calc(100vh - 100px); /* Adjust based on header/footer height */
+            overflow-y: auto; /* Enable vertical scrolling if needed */
+        }
+    </style>
+</head>
+<body>
+    <h2>Heart Disease Prediction</h2>
+    
+    <div id="page1">
+        <form id="page1-form">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="number" name="age" placeholder="Age" required>
+            <input type="number" name="sex" placeholder="Gender (0 = Female, 1 = Male)" required>
+            <div class="button-container">
+                <button type="button" onclick="nextPage()">Next</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="page2" style="display:none;">
+        <form id="prediction-form">
+            <div class="section-title">Basic Information</div>
+            <input type="number" name="cp" placeholder="Chest Pain Type (0-3)" required>
+            <input type="number" name="trestbps" placeholder="Resting BP" required>
+            <input type="number" name="chol" placeholder="Cholesterol Level" required>
+            <input type="number" name="fbs" placeholder="Fasting Blood Sugar (0 or 1)" required>
+            
+            <div class="section-title">Clinical Measurements</div>
+            <input type="number" name="restecg" placeholder="Resting ECG (0-2)" required>
+            <input type="number" name="thalach" placeholder="Max Heart Rate" required>
+            <input type="number" name="exang" placeholder="Exercise-Induced Angina (0 or 1)" required>
+            <input type="number" step="0.1" name="oldpeak" placeholder="ST Depression" required>
+            
+            <div class="section-title">ECG & Other Indicators</div>
+            <input type="number" name="slope" placeholder="Slope (0-2)" required>
+            <input type="number" name="ca" placeholder="Major Vessels (0-4)" required>
+            <input type="number" name="thal" placeholder="Thalassemia (0-3)" required>
+            
+            <div class="button-container">
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+        <h3 id="result"></h3>
+    </div>
+
+    <script>
+        function nextPage() {
+            document.getElementById("page1").style.display = "none";
+            document.getElementById("page2").style.display = "block";
+        }
+
+        document.getElementById("prediction-form").onsubmit = async function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+            let response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+            let result = await response.json();
+            document.getElementById("result").innerText = result.prediction;
+        };
+    </script>
+</body>
+</html>

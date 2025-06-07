@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Heart Disease Stages</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px 0;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    .stages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    .stage {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stage-img {
+      width: 350px;
+      height: 250px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-right: 30px;
+    }
+
+    .stage-info {
+      text-align: left;
+      max-width: 500px;
+    }
+
+    .stage-info h2 {
+      font-size: 2em;
+      color: #333;
+    }
+
+    .stage-info p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    ul {
+      list-style-type: none;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer p {
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Stages of Heart Disease</h1>
+  </header>
+
+  <section class="stages">
+    <!-- Stage 1 -->
+    <div class="stage">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/2027_Phases_of_the_Cardiac_Cycle.jpg" alt="Stage 1" class="stage-img">
+      <div class="stage-info">
+        <h2>Stage 1: Early/Asymptomatic Stage</h2>
+        <p>Heart disease is silently developing with no noticeable symptoms. Risk factors like hypertension or high cholesterol are present.</p>
+        <ul>
+          <li>No visible symptoms</li>
+          <li>High blood pressure or cholesterol</li>
+          <li>Lifestyle risks: smoking, poor diet, inactivity</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage">
+      <img src="https://www.thekeyholeheartclinic.com/wp-content/uploads/2022/11/shutterstock_2048787008-1536x1536.jpg" alt="Stage 2" class="stage-img">
+      <div class="stage-info">
+        <h2>Stage 2: Angina (Chest Pain) Stage</h2>
+        <p>Blood flow to the heart is partially blocked, causing chest pain during physical or emotional stress.</p>
+        <ul>
+          <li>Chest pain on exertion</li>
+          <li>Radiating pain (arms, neck, jaw)</li>
+          <li>Shortness of breath, tiredness</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage">
+      <img src="https://www.shutterstock.com/shutterstock/photos/2444715045/display_1500/stock-vector-human-heart-anatomy-and-different-types-of-myocardial-infarction-for-educational-purposes-structure-2444715045.jpg" alt="Stage 3" class="stage-img">
+      <div class="stage-info">
+        <h2>Stage 3: Heart Attack (Myocardial Infarction)</h2>
+        <p>A heart attack occurs when blood flow is completely blocked, damaging the heart muscle.</p>
+        <ul>
+          <li>Severe chest pain or pressure</li>
+          <li>Nausea, sweating, dizziness</li>
+          <li>Pain lasting more than 20 minutes</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage">
+      <img src="https://cdn2.activebeat.com/eyJidWNrZXQiOiJvbS1wdWItc3RvcmFnZSIsImtleSI6ImFjdGl2ZWJlYXQvd3AtY29udGVudC91cGxvYWRzLzIwMjEvMDcvQ2xhcmlzc2FzLUVkaXQtQWN0aXZlYmVhdC1MYXJnZS1Gb3JtYXQtSW1hZ2UtNDEucG5nIiwiZWRpdHMiOnsid2VicCI6eyJxdWFsaXR5Ijo4MH0sInJlc2l6ZSI6eyJmaXQiOiJjb3ZlciIsImJhY2tncm91bmQiOnsiciI6MCwiZyI6MCwiYiI6MCwiYWxwaGEiOjF9LCJ3aWR0aCI6NzMwLCJoZWlnaHQiOjQ4NywicG9zaXRpb24iOiJ0b3AifX19" alt="Stage 4" class="stage-img">
+      <div class="stage-info">
+        <h2>Stage 4: Heart Failure</h2>
+        <p>The heart can’t pump blood effectively, causing fluid buildup and poor oxygen delivery to organs.</p>
+        <ul>
+          <li>Swelling in legs, ankles</li>
+          <li>Fatigue and weakness</li>
+          <li>Shortness of breath even at rest</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage">
+      <img src="https://assets.medpagetoday.net/media/images/102xxx/102908.png?width=0.8" alt="Stage 5" class="stage-img">
+      <div class="stage-info">
+        <h2>Stage 5: End-Stage Heart Disease</h2>
+        <p>Severe damage has occurred. The heart may no longer function even with medication. Often requires transplant or palliative care.</p>
+        <ul>
+          <li>Severe fatigue and breathlessness</li>
+          <li>Recurrent hospitalizations</li>
+          <li>Dependence on oxygen or devices</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Heart Health Portal &copy; 2025</p>
+  </footer>
+</body>
+</html>

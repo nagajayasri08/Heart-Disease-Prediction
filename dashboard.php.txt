@@ -1,0 +1,150 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+echo "User ID not found in session.";
+exit;
+}
+$user_id = $_SESSION['user_id'];
+try {
+$db = new PDO('mysql:host=127.0.0.1;dbname=heart_app', 'root', '');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$stmt = $db->prepare('SELECT * FROM inputs WHERE user_id = :user_id ORDER BY timestamp DESC LIMIT 1');
+$stmt->bindParam(':user_id', $user_id);
+$stmt->execute();
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($userData && isset($userData['prediction_stage'])) {
+$predictionStage = $userData['prediction_stage'];
+$stmt = $db->prepare('SELECT diet_plan, exercise_plan FROM diet_exercise WHERE stage = :stage');
+$stmt->bindParam(':stage', $predictionStage);
+$stmt->execute();
+$recommendations = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$recommendations) {
+// Log or handle the case where no recommendations are found.
+}
+} else {
+// Log or handle the case where prediction stage is not set.
+}
+} catch (PDOException $e) {
+echo 'Error: ' . $e->getMessage();
+exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Health Dashboard</title>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: #f4f7f6;
+color: #333;
+42
+margin: 20px;
+line-height: 1.6;
+}
+h1, h2, h3 {
+color: #2c3e50;
+text-align: center;
+margin-bottom: 20px;
+}
+h2 {
+border-bottom: 2px solid #3498db;
+padding-bottom: 10px;
+margin-top: 30px;
+}
+table {
+width: 80%;
+margin: 20px auto;
+border-collapse: collapse;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+background-color: #fff;
+border-radius: 8px;
+overflow: hidden;
+}
+th, td {
+border: 1px solid #ddd;
+padding: 12px;
+text-align: left;
+}
+th {
+background-color: #3498db;
+color: white;
+font-weight: bold;
+}
+tr:nth-child(even) {
+background-color: #f9f9f9;
+}
+p {
+margin-bottom: 15px;
+color: #555;
+}
+.recommendations-container {
+background-color: #fff;
+padding: 20px;
+margin: 20px auto;
+width: 80%;
+border-radius: 8px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.recommendations-container h3 {
+color: #27ae60;
+border-bottom: 1px solid #d4edda;
+padding-bottom: 8px;
+43
+margin-top: 0;
+text-align: left;
+}
+.no-data {
+text-align: center;
+color: #e74c3c;
+font-style: italic;
+}
+</style>
+</head>
+<body>
+<h1>Your Health Dashboard</h1>
+<h2>Your Recent Data:</h2>
+<?php if ($userData) { ?>
+<table>
+<thead>
+<tr>
+<th>Age</th>
+<th>Sex</th>
+<th>Resting Blood Pressure (trestbps)</th>
+<th>Cholesterol (chol)</th>
+<th>Prediction Stage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><?php echo htmlspecialchars($userData['age']); ?></td>
+<td><?php echo htmlspecialchars($userData['sex']); ?></td>
+<td><?php echo htmlspecialchars($userData['trestbps']); ?></td>
+<td><?php echo htmlspecialchars($userData['chol']); ?></td>
+<td><?php echo htmlspecialchars($userData['prediction_stage']); ?></td>
+</tr>
+</tbody>
+</table>
+<?php } else { ?>
+<p class="no-data">No data found for your account yet.</p>
+<?php } ?>
+<h2>Personalized Health Recommendations:</h2>
+<div class="recommendations-container">
+<?php if ($recommendations) { ?>
+<div>
+<h3>Diet Plan:</h3>
+<p><?php echo htmlspecialchars($recommendations['diet_plan']); ?></p>
+</div>
+<div>
+<h3>Exercise Plan:</h3>
+<p><?php echo htmlspecialchars($recommendations['exercise_plan']); ?></p>
+</div>
+<?php } else { ?>
+<p class="no-data">No specific diet and exercise recommendations found for your current prediction stage.</p>
+44
+<?php } ?>
+</div>
+</body>
+</html>
